@@ -21,7 +21,7 @@ const Footer = () => {
 
             <div className='space-y-4'>
               <div className='flex items-start gap-3'>
-                <svg className='w-6 h-6 text-red-500 flex-shrink-0 mt-1' fill='currentColor' viewBox='0 0 24 24'>
+                <svg className='w-6 h-6 text-red-500 shrink-0 mt-1' fill='currentColor' viewBox='0 0 24 24'>
                   <path d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm3.5-9c.83 0 1.5-.67 1.5-1.5S16.33 8 15.5 8 14 8.67 14 9.5s.67 1.5 1.5 1.5zm-7 0c.83 0 1.5-.67 1.5-1.5S9.33 8 8.5 8 7 8.67 7 9.5 7.67 11 8.5 11zm3.5 6.5c2.33 0 4.31-1.46 5.11-3.5H6.89c.8 2.04 2.78 3.5 5.11 3.5z' />
                 </svg>
                 <div>
@@ -53,7 +53,7 @@ const Footer = () => {
             <ul className='space-y-3'>
               <li><Link href='/about' className='hover:text-red-500 transition'>About Us</Link></li>
               <li><Link href='/services' className='hover:text-red-500 transition'>Our Services</Link></li>
-              <li><Link href='/service-details' className='hover:text-red-500 transition'>Service details</Link></li>
+              <li><Link href='/services' className='hover:text-red-500 transition'>Service details</Link></li>
               <li><Link href='/blog' className='hover:text-red-500 transition'>Blog</Link></li>
               <li><Link href='/contact' className='hover:text-red-500 transition'>Contact us</Link></li>
             </ul>
@@ -67,7 +67,6 @@ const Footer = () => {
               <li><Link href='/compare' className='hover:text-red-500 transition'>Compare Vehicles</Link></li>
               <li><Link href='/faq' className='hover:text-red-500 transition'>General FAQ</Link></li>
               <li><Link href='/testimonial' className='hover:text-red-500 transition'>Testimonial</Link></li>
-              <li><Link href='/admin' className='hover:text-red-500 transition'>Admin Login</Link></li>
             </ul>
           </div>
 
@@ -79,7 +78,7 @@ const Footer = () => {
               <input
                 type='email'
                 placeholder='Email'
-                className='flex-grow px-4 py-3 rounded-l-lg bg-blue-900 text-white placeholder-gray-500 focus:outline-none'
+                className='grow px-4 py-3 rounded-l-lg bg-blue-900 text-white placeholder-gray-500 focus:outline-none'
               />
               <button className='bg-red-500 hover:bg-red-600 text-white px-4 py-3 rounded-r-lg transition'>
                 <svg className='w-5 h-5' fill='none' stroke='currentColor' viewBox='0 0 24 24'>

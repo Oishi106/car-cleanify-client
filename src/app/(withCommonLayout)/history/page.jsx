@@ -137,29 +137,32 @@ const HistoryPage = () => {
 				}
 			`}</style>
 
-            {/* Hero Section */}
-            <div
-                className='relative w-full min-h-[70vh] flex items-center pt-20'
-                style={{
-                    backgroundImage: 'url(/abouthero.png)',
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center'
-                }}
-            >
-                {/* Dark Overlay */}
-                <div className='absolute inset-0 bg-black/40'></div>
 
-                <div className='relative max-w-7xl mx-auto px-6 z-10 w-full'>
-                    <div className='max-w-2xl'>
-                        <h1 className='hero-title text-5xl lg:text-7xl font-bold text-white mb-6'>
-                            Our History
-                        </h1>
-                        <div className='hero-bar w-20 h-1 bg-red-500 mb-6'></div>
-                        <p className='hero-subtitle text-xl text-gray-200'>
-                            From a small beginning, we have grown into a trusted car cleaning service dedicated to quality and customer satisfaction.                        </p>
-                    </div>
-                </div>
-            </div>
+             {/* Hero Section */}
+      <div 
+        className='relative w-full min-h-[70vh] flex items-center pt-20'
+        style={{
+          backgroundImage: 'url(/abouthero.png)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center'
+        }}
+      >
+        {/* Dark Overlay */}
+        <div className='absolute inset-0 bg-black/40'></div>
+        
+        <div className='relative max-w-7xl mx-auto px-6 z-10 w-full'>
+          <div className='max-w-2xl'>
+            <h1 className='hero-title text-5xl lg:text-7xl font-bold text-white mb-6'>
+              Our History
+            </h1>
+            <div className='w-20 h-1 bg-red-500 mb-6'></div>
+            <p className='hero-subtitle text-xl text-gray-200'>
+                        From a small beginning, we have grown into a trusted car cleaning service dedicated to quality and customer satisfaction.
+            </p>
+          </div>
+        </div>
+      </div>
+            
             {/* Timeline */}
             <section className='py-20 px-6 bg-white'>
                 <div className='max-w-7xl mx-auto'>

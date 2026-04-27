@@ -2,11 +2,13 @@
 
 import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false)
   const [openDropdown, setOpenDropdown] = useState(null)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const pathname = usePathname()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -39,6 +41,12 @@ const Navbar = () => {
     setOpenDropdown(openDropdown === menu ? null : menu)
   }
 
+  const contactLinkClass = 'font-semibold hover:text-red-500 transition text-sm xl:text-base'
+  const loginButtonClass = `inline-flex items-center justify-center rounded-full border px-5 py-2.5 text-sm font-semibold transition ${isScrolled ? 'border-slate-300 text-slate-900 hover:border-red-500 hover:text-red-500' : 'border-white/30 text-white hover:border-red-400 hover:text-red-200'}`
+  const mobileContactLinkClass = 'block px-4 py-2 hover:text-red-500 transition'
+  const mobileLoginLinkClass = 'block px-4 py-2 font-semibold hover:text-red-500 transition'
+  const isContactPage = pathname === '/contact'
+
   return (
     <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
       isScrolled ? 'bg-white shadow-lg' : 'bg-transparent'
@@ -46,7 +54,7 @@ const Navbar = () => {
       <div className='max-w-7xl mx-auto px-4 sm:px-6 py-4'>
         <div className='flex justify-between items-center'>
           {/* Logo */}
-          <div className='flex items-center gap-2 flex-shrink-0'>
+          <div className='flex items-center gap-2 shrink-0'>
             <img 
               src='/logo.png' 
               alt='Logo' 
@@ -58,7 +66,7 @@ const Navbar = () => {
           </div>
 
           {/* Desktop Menu Items */}
-          <div className={`hidden lg:flex gap-4 xl:gap-8 ${isScrolled ? 'text-gray-900' : 'text-white'}`}>
+          <div className={`hidden lg:flex items-center gap-4 xl:gap-8 ${isScrolled ? 'text-gray-900' : 'text-white'}`}>
             <Link href='/' className='font-semibold hover:text-red-500 transition text-sm xl:text-base'>Home</Link>
             <Link href='/about' className='font-semibold hover:text-red-500 transition text-sm xl:text-base'>About</Link>
             
@@ -110,7 +118,12 @@ const Navbar = () => {
 
             <Link href='/shop' className='font-semibold hover:text-red-500 transition text-sm xl:text-base'>Shop</Link>
             <Link href='/blog' className='font-semibold hover:text-red-500 transition text-sm xl:text-base'>Blog</Link>
-            <Link href='/contact' className='font-semibold hover:text-red-500 transition text-sm xl:text-base'>Contact</Link>
+            {isContactPage ? (
+              <span className={`${contactLinkClass} text-red-500`} aria-current='page'>Contact</span>
+            ) : (
+              <Link href='/contact' className={contactLinkClass}>Contact</Link>
+            )}
+            <Link href='/login' className={loginButtonClass}>Login</Link>
           </div>
 
           {/* Mobile Menu Button */}
@@ -186,7 +199,12 @@ const Navbar = () => {
 
             <Link href='/shop' className='block px-4 py-2 hover:text-red-500 transition'>Shop</Link>
             <Link href='/blog' className='block px-4 py-2 hover:text-red-500 transition'>Blog</Link>
-            <Link href='/contact' className='block px-4 py-2 hover:text-red-500 transition'>Contact</Link>
+            {isContactPage ? (
+              <span className={`${mobileContactLinkClass} text-red-500`} aria-current='page'>Contact</span>
+            ) : (
+              <Link href='/contact' className={mobileContactLinkClass}>Contact</Link>
+            )}
+            <Link href='/login' className={mobileLoginLinkClass} onClick={() => setIsMobileMenuOpen(false)}>Login</Link>
           </div>
         )}
       </div>

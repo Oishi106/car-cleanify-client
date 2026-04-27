@@ -1,37 +1,44 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
+import Link from 'next/link'
 
 const ServicesPage = () => {
   const [visibleItems, setVisibleItems] = useState({})
 
   const services = [
     {
+      slug: 'car-wash-lift',
       icon: '🚗',
       title: 'Car wash lift',
-      description: 'There are many variations of passages of Lorem Ipsum available.'
+      description: 'High-pressure exterior cleaning with careful finish protection.'
     },
     {
+      slug: 'hand-car-wash',
       icon: '🛞',
       title: 'Hand car wash',
-      description: 'There are many variations of passages of Lorem Ipsum available.'
+      description: 'Gentle hand wash service for a spotless, swirl-safe result.'
     },
     {
+      slug: 'tunnel-washes',
       icon: '🏢',
       title: 'Tunnel washes',
-      description: 'There are many variations of passages of Lorem Ipsum available.'
+      description: 'Fast, efficient wash tunnel service for busy schedules and fleets.'
     },
     {
+      slug: 'chemical-car-wash',
       icon: '⚗️',
       title: 'Chemical car wash',
-      description: 'There are many variations of passages of Lorem Ipsum available.'
+      description: 'Safe, purpose-built cleaning agents for stubborn grime and residue.'
     },
     {
+      slug: 'premium-detailing',
       icon: '✨',
       title: 'Premium Detailing',
       description: 'Professional detailing for a showroom quality finish.'
     },
     {
+      slug: 'ceramic-coating',
       icon: '🛡️',
       title: 'Ceramic Coating',
       description: 'Long-lasting ceramic coating for ultimate protection.'
@@ -170,11 +177,12 @@ const ServicesPage = () => {
         <div className='relative max-w-7xl mx-auto px-6 z-10 w-full'>
           <div className='max-w-2xl'>
             <h1 className='hero-title text-5xl lg:text-7xl font-bold text-white mb-6'>
-              Our Services
+              Service Details
             </h1>
             <div className='w-20 h-1 bg-red-500 mb-6'></div>
             <p className='hero-subtitle text-xl text-gray-200'>
-              We provide professional car washing, cleaning, and maintenance services to keep your vehicle looking fresh and spotless.             </p>
+              Explore each service, compare what is included, and jump straight to booking when you are ready.
+            </p>
           </div>
         </div>
       </div>
@@ -186,20 +194,22 @@ const ServicesPage = () => {
             {/* Left - Services Grid */}
             <div className='grid grid-cols-1 md:grid-cols-2 gap-8'>
               {services.map((service, index) => (
-                <div
-                  key={index}
+                <Link
+                  key={service.slug}
+                  href={`/services/${service.slug}`}
                   data-scroll-animate
                   className={`service-card ${visibleItems[index] ? 'visible' : ''} delay-${index + 1}`}
                   style={{
                     animationDelay: `${index * 0.1}s`
                   }}
                 >
-                  <div className='bg-gray-50 hover:bg-red-50 rounded-lg p-8 transition duration-300 h-full'>
+                  <div className='bg-gray-50 hover:bg-red-50 rounded-lg p-8 transition duration-300 h-full border border-transparent hover:border-red-200'>
                     <div className='text-5xl mb-4'>{service.icon}</div>
                     <h3 className='text-xl font-bold text-gray-900 mb-3'>{service.title}</h3>
-                    <p className='text-gray-600 leading-relaxed'>{service.description}</p>
+                    <p className='text-gray-600 leading-relaxed mb-5'>{service.description}</p>
+                    <span className='font-semibold text-red-500'>View details</span>
                   </div>
-                </div>
+                </Link>
               ))}
             </div>
 
@@ -215,47 +225,16 @@ const ServicesPage = () => {
         </div>
       </section>
 
-      {/* Additional Services Section */}
-      <section className='py-20 px-6 bg-gray-50'>
-        <div className='max-w-7xl mx-auto'>
-          <div className='text-center mb-16' data-scroll-animate>
-            <h2 className='text-4xl font-bold text-gray-900 mb-6'>Why Choose Our Services?</h2>
-            <p className='text-gray-600 text-lg max-w-2xl mx-auto'>
-              We provide professional car care solutions with trained experts and premium products
-            </p>
-          </div>
-
-          <div className='grid grid-cols-1 md:grid-cols-3 gap-8'>
-            {['Expert Team', 'Quality Products', 'Affordable Pricing'].map((item, idx) => (
-              <div
-                key={idx}
-                data-scroll-animate
-                className='bg-white p-8 rounded-lg shadow-lg hover:shadow-xl transition'
-                style={{ opacity: 0 }}
-              >
-                <div className='w-12 h-12 bg-red-500 rounded-full flex items-center justify-center mb-4'>
-                  <span className='text-white text-xl'>✓</span>
-                </div>
-                <h3 className='text-xl font-bold text-gray-900 mb-3'>{item}</h3>
-                <p className='text-gray-600'>
-                  Professional team ensuring quality service with best products at competitive rates.
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* CTA Section */}
-      <section className='py-20 px-6 bg-gradient-to-r from-gray-900 to-gray-800'>
+      <section className='py-20 px-6 bg-linear-to-r from-gray-900 to-gray-800'>
         <div className='max-w-4xl mx-auto text-center' data-scroll-animate>
           <h2 className='text-4xl font-bold text-white mb-6'>Ready to Experience Excellence?</h2>
           <p className='text-xl text-gray-300 mb-10'>
             Book your service today and see the difference we can make to your vehicle
           </p>
-          <button className='bg-red-500 hover:bg-red-600 text-white font-bold py-4 px-10 rounded-lg transition transform hover:scale-105'>
+          <Link href='/services/booking' className='inline-flex bg-red-500 hover:bg-red-600 text-white font-bold py-4 px-10 rounded-lg transition transform hover:scale-105'>
             Book Now
-          </button>
+          </Link>
         </div>
       </section>
     </>
