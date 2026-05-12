@@ -55,7 +55,7 @@ Car Cleanify is a modern, full-stack web application designed to streamline car 
 
 ## 📸 Screenshots
 
-*(Add your project screenshots here)*
+*( project screenshots here)*
 
 ## 📄 License
 
@@ -66,4 +66,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 Contributions, issues, and feature requests are welcome! Feel free to check the [issues page](https://github.com/your-username/car-cleanify/issues).
 
 ---
-Made with ❤️ by [Your Name]
+Made with ❤️ by Mahamuda Afroz
