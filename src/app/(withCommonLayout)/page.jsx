@@ -1,5 +1,6 @@
 'use client'
 
+import Link from 'next/link'
 import React, { useState, useRef, useEffect } from 'react'
 
 const HomePage = () => {
@@ -25,6 +26,94 @@ const HomePage = () => {
     { number: '100%', label: 'Satisfaction Rate' },
     { number: '15+', label: 'Years Experience' },
     { number: '24/7', label: 'Customer Support' }
+  ]
+
+  const featuredServices = [
+    {
+      title: 'Exterior detailing',
+      desc: 'Restore gloss, remove road film, and protect paint with a careful exterior treatment.',
+      href: '/services/car-wash-lift'
+    },
+    {
+      title: 'Interior refresh',
+      desc: 'Deep vacuuming, cabin wipe-downs, and a cleaner feel from front to back.',
+      href: '/services/hand-car-wash'
+    },
+    {
+      title: 'Paint protection',
+      desc: 'Ceramic coating and finish protection made for longer-lasting shine.',
+      href: '/services/ceramic-coating'
+    }
+  ]
+
+  const reasons = [
+    {
+      title: 'Careful handling',
+      desc: 'We use safe tools and proven methods to protect surfaces, trim, and finishes.'
+    },
+    {
+      title: 'Fast turnaround',
+      desc: 'The workflow is organized so service stays efficient without losing quality.'
+    },
+    {
+      title: 'Clear support',
+      desc: 'You always know what is included, what is recommended, and what happens next.'
+    },
+    {
+      title: 'Premium results',
+      desc: 'Every step is designed to leave your vehicle cleaner, brighter, and sharper.'
+    }
+  ]
+
+  const packages = [
+    {
+      name: 'Basic Shine',
+      price: '$19',
+      features: ['Exterior wash', 'Hand dry', 'Tire wipe']
+    },
+    {
+      name: 'Deep Clean',
+      price: '$39',
+      features: ['Full wash', 'Interior vacuum', 'Dashboard wipe']
+    },
+    {
+      name: 'Premium Detail',
+      price: '$79',
+      features: ['Deep clean', 'Polish', 'Protection layer']
+    }
+  ]
+
+  const testimonials = [
+    {
+      name: 'Rashed Khan',
+      role: 'SUV owner',
+      quote: 'The finish was better than I expected and the team explained everything clearly.'
+    },
+    {
+      name: 'Nadia Akter',
+      role: 'Regular customer',
+      quote: 'Booking was easy and the car came back spotless. The service felt very professional.'
+    },
+    {
+      name: 'Imran Hossain',
+      role: 'Fleet manager',
+      quote: 'They keep our vehicles consistent, clean, and ready without disrupting the schedule.'
+    }
+  ]
+
+  const faqs = [
+    {
+      q: 'How long does a service usually take?',
+      a: 'Most services take between 30 minutes and 2 hours depending on the package and vehicle condition.'
+    },
+    {
+      q: 'Do you offer premium protection?',
+      a: 'Yes, we offer detailing and ceramic coating options for longer-lasting finish protection.'
+    },
+    {
+      q: 'Can I book ahead?',
+      a: 'You can book ahead through the booking page and choose a time that works best for you.'
+    }
   ]
 
   const handleMouseDown = () => {
@@ -451,6 +540,169 @@ const HomePage = () => {
                   </svg>
                 </button>
               </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Featured Services Section */}
+      <section className='py-20 px-6 bg-white'>
+        <div className='max-w-7xl mx-auto'>
+          <div className='flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between mb-12'>
+            <div className='max-w-2xl'>
+              <p className='text-red-500 font-bold text-sm tracking-[0.3em] uppercase mb-4'>Featured Services</p>
+              <h2 className='text-4xl font-bold text-gray-900 leading-tight'>Choose the right service for your vehicle</h2>
+            </div>
+            <Link href='/services' className='inline-flex w-fit items-center justify-center rounded-full border border-gray-300 px-6 py-3 font-semibold text-gray-700 transition hover:border-red-500 hover:text-red-500'>
+              View all services
+            </Link>
+          </div>
+
+          <div className='grid gap-6 md:grid-cols-2 xl:grid-cols-3'>
+            {featuredServices.map((service) => (
+              <Link key={service.title} href={service.href} className='group rounded-4xl border border-gray-200 bg-slate-50 p-6 transition hover:-translate-y-1 hover:border-red-200 hover:bg-white hover:shadow-xl'>
+                <div className='mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-red-500/10 text-2xl'>
+                  ✦
+                </div>
+                <h3 className='text-2xl font-bold text-gray-900 mb-3'>{service.title}</h3>
+                <p className='text-gray-600 leading-7 mb-6'>{service.desc}</p>
+                <span className='font-semibold text-red-500 group-hover:underline'>Learn more</span>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Why Choose Us Section */}
+      <section className='py-20 px-6 bg-gradient-to-br from-slate-50 to-white'>
+        <div className='max-w-7xl mx-auto grid gap-10 lg:grid-cols-[0.95fr_1.05fr] items-center'>
+          <div>
+            <p className='text-red-500 font-bold text-sm tracking-[0.3em] uppercase mb-4'>Why Choose Us</p>
+            <h2 className='text-4xl font-bold text-gray-900 leading-tight mb-6'>Built for customers who want clean results without extra hassle</h2>
+            <p className='text-gray-600 text-lg leading-8 mb-8'>
+              Our workflow focuses on convenience, consistent quality, and careful detailing so every visit feels straightforward and worth the time.
+            </p>
+            <Link href='/contact' className='inline-flex rounded-full bg-black px-8 py-4 font-semibold text-white transition hover:bg-red-500'>
+              Talk to the team
+            </Link>
+          </div>
+
+          <div className='grid gap-5 sm:grid-cols-2'>
+            {reasons.map((reason, index) => (
+              <div key={reason.title} className='rounded-3xl border border-gray-200 bg-white p-6 shadow-sm'>
+                <div className='mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-red-500 text-white font-bold'>
+                  0{index + 1}
+                </div>
+                <h3 className='text-xl font-bold text-gray-900 mb-3'>{reason.title}</h3>
+                <p className='text-gray-600 leading-7'>{reason.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Packages Section */}
+      <section className='py-20 px-6 bg-slate-900 text-white'>
+        <div className='max-w-7xl mx-auto'>
+          <div className='text-center max-w-3xl mx-auto mb-14'>
+            <p className='text-red-300 font-bold text-sm tracking-[0.3em] uppercase mb-4'>Packages</p>
+            <h2 className='text-4xl font-bold mb-4'>Simple pricing for different levels of care</h2>
+            <p className='text-slate-300 text-lg leading-8'>
+              Pick a package that fits your vehicle and schedule, then book a slot in a few quick steps.
+            </p>
+          </div>
+
+          <div className='grid gap-6 lg:grid-cols-3'>
+            {packages.map((pkg) => (
+              <div key={pkg.name} className='rounded-4xl border border-white/10 bg-white/5 p-8 backdrop-blur-sm'>
+                <p className='text-sm uppercase tracking-[0.25em] text-red-300 mb-3'>{pkg.name}</p>
+                <div className='text-5xl font-bold mb-6'>{pkg.price}</div>
+                <div className='space-y-3 mb-8'>
+                  {pkg.features.map((feature) => (
+                    <div key={feature} className='flex items-center gap-3 text-slate-200'>
+                      <span className='text-red-300'>✓</span>
+                      <span>{feature}</span>
+                    </div>
+                  ))}
+                </div>
+                <Link href='/services/booking' className='inline-flex w-full justify-center rounded-full bg-red-500 px-6 py-3.5 font-semibold text-white transition hover:bg-red-600'>
+                  Book this package
+                </Link>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonials Section */}
+      <section className='py-20 px-6 bg-white'>
+        <div className='max-w-7xl mx-auto'>
+          <div className='flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between mb-12'>
+            <div className='max-w-2xl'>
+              <p className='text-red-500 font-bold text-sm tracking-[0.3em] uppercase mb-4'>Testimonials</p>
+              <h2 className='text-4xl font-bold text-gray-900 leading-tight'>What customers say after the wash</h2>
+            </div>
+            <p className='max-w-xl text-gray-600 text-lg leading-8'>Real feedback from drivers who wanted a cleaner car and a smoother service experience.</p>
+          </div>
+
+          <div className='grid gap-6 lg:grid-cols-3'>
+            {testimonials.map((testimonial) => (
+              <div key={testimonial.name} className='rounded-4xl border border-gray-200 bg-slate-50 p-8 shadow-sm'>
+                <div className='mb-5 flex gap-1 text-yellow-400'>
+                  {[...Array(5)].map((_, i) => (
+                    <span key={i}>★</span>
+                  ))}
+                </div>
+                <p className='text-gray-700 leading-8 mb-8'>“{testimonial.quote}”</p>
+                <div>
+                  <p className='font-bold text-gray-900'>{testimonial.name}</p>
+                  <p className='text-sm text-gray-500'>{testimonial.role}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ and CTA Section */}
+      <section className='py-20 px-6 bg-gradient-to-b from-slate-50 to-white'>
+        <div className='max-w-7xl mx-auto grid gap-10 lg:grid-cols-[1.05fr_0.95fr] items-start'>
+          <div className='rounded-4xl border border-gray-200 bg-white p-8 shadow-sm'>
+            <p className='text-red-500 font-bold text-sm tracking-[0.3em] uppercase mb-4'>Quick Answers</p>
+            <h2 className='text-4xl font-bold text-gray-900 mb-8'>Common questions before booking</h2>
+            <div className='space-y-5'>
+              {faqs.map((item) => (
+                <div key={item.q} className='rounded-3xl border border-gray-200 bg-slate-50 p-5'>
+                  <h3 className='text-lg font-bold text-gray-900 mb-2'>{item.q}</h3>
+                  <p className='text-gray-600 leading-7'>{item.a}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className='rounded-4xl bg-slate-950 text-white p-8 shadow-xl'>
+            <p className='text-red-300 font-bold text-sm tracking-[0.3em] uppercase mb-4'>Ready to book</p>
+            <h2 className='text-4xl font-bold leading-tight mb-6'>Schedule your next clean in just a few clicks</h2>
+            <p className='text-slate-300 text-lg leading-8 mb-8'>
+              Choose a service, pick a time, and we will handle the rest with a smooth confirmation process.
+            </p>
+            <div className='grid gap-4 sm:grid-cols-2 mb-8'>
+              <div className='rounded-3xl bg-white/5 p-5'>
+                <p className='text-sm uppercase tracking-[0.2em] text-red-300 mb-2'>Support</p>
+                <p className='font-semibold'>Fast response team</p>
+              </div>
+              <div className='rounded-3xl bg-white/5 p-5'>
+                <p className='text-sm uppercase tracking-[0.2em] text-red-300 mb-2'>Timing</p>
+                <p className='font-semibold'>Flexible booking slots</p>
+              </div>
+            </div>
+            <div className='flex flex-col sm:flex-row gap-4'>
+              <Link href='/services/booking' className='inline-flex justify-center rounded-full bg-red-500 px-8 py-4 font-semibold text-white transition hover:bg-red-600'>
+                Book now
+              </Link>
+              <Link href='/contact' className='inline-flex justify-center rounded-full border border-white/15 px-8 py-4 font-semibold text-white transition hover:border-white/30 hover:bg-white/5'>
+                Contact us
+              </Link>
             </div>
           </div>
         </div>
