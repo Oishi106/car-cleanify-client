@@ -1,36 +1,69 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# 🚗 Car Cleanify
 
-## Getting Started
+Car Cleanify is a modern, full-stack web application designed to streamline car cleaning service bookings. Built with the MERN stack and Next.js, it offers a seamless experience for users to browse services, book appointments, and manage their orders securely.
 
-First, run the development server:
+## 🚀 Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+-   **User Authentication:** Secure login and registration.
+-   **Service Management:** Browse various car cleaning packages with detailed descriptions.
+-   **Real-time Booking:** Interactive booking system with date and time selection.
+-   **Secure Payments:** Integrated with **Stripe** for safe and reliable transactions.
+-   **User Dashboard:** Track booking history, status updates, and manage profile settings.
+-   **Admin Panel:** Comprehensive dashboard for managing services, viewing all bookings, and updating order statuses.
+-   **Responsive Design:** Fully optimized for mobile, tablet, and desktop views using Tailwind CSS.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🛠️ Tech Stack
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+-   **Frontend:** Next.js (App Router), React.js, Tailwind CSS
+-   **Backend:** Node.js, Express.js
+-   **Database:** MongoDB (with Mongoose)
+-   **Authentication:** NextAuth.js / JWT
+-   **Payment Gateway:** Stripe API
+-   **Deployment:** Vercel (Frontend) & Render/Heroku (Backend)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 📦 Installation & Setup
 
-## Learn More
+1.  **Clone the repository:**
+    ```bash
+    git clone https://github.com/your-username/car-cleanify.git
+    cd car-cleanify
+    ```
 
-To learn more about Next.js, take a look at the following resources:
+2.  **Install dependencies:**
+    ```bash
+    npm install
+    # or
+    yarn install
+    ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+3.  **Environment Variables:**
+    Create a `.env.local` file in the root directory and add the following:
+    ```env
+    DATABASE_URL=your_mongodb_uri
+    STRIPE_SECRET_KEY=your_stripe_secret_key
+    NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=your_stripe_pub_key
+    NEXTAUTH_SECRET=your_nextauth_secret
+    ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+4.  **Run the development server:**
+    ```bash
+    npm run dev
+    # or
+    yarn dev
+    ```
+    Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-## Deploy on Vercel
+## 📸 Screenshots
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+*( project screenshots here)*
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🤝 Contributing
+
+Contributions, issues, and feature requests are welcome! Feel free to check the [issues page](https://github.com/your-username/car-cleanify/issues).
+
+---
+Made with ❤️ by Mahamuda Afroz

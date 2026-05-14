@@ -248,10 +248,10 @@ const HomePage = () => {
       <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 px-5 py-2 rounded-full mb-6">
         <span className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
         <p className="text-white text-sm font-medium tracking-wide">
-           Car Detailing Service
+           Car Detailing Service         
         </p>
       </div>
-
+          
       {/* Heading */}
       <h1 className="text-5xl md:text-6xl lg:text-7xl font-extrabold text-white leading-tight mb-6">
          Car Wash <br />
@@ -261,7 +261,7 @@ const HomePage = () => {
       {/* Description */}
       <p className="text-gray-300 text-lg md:text-xl leading-relaxed max-w-2xl mb-10">
         Experience high-quality car cleaning and detailing with modern                          
-        technology, expert care, and fast service that keeps your vehicle
+        technology, expert care, and fast service that keeps your vehicle                     
         shining like brand new.
       </p>
 
