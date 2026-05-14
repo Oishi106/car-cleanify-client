@@ -255,12 +255,12 @@ const HomePage = () => {
       {/* Heading */}
       <h1 className="text-5xl md:text-6xl lg:text-7xl font-extrabold text-white leading-tight mb-6">
          Car Wash <br />
-        <span className="text-red-500">& Detailing Service</span>
+        <span className="text-red-500">& Detailing Service</span>                    
       </h1>
 
       {/* Description */}
       <p className="text-gray-300 text-lg md:text-xl leading-relaxed max-w-2xl mb-10">
-        Experience high-quality car cleaning and detailing with modern
+        Experience high-quality car cleaning and detailing with modern                          
         technology, expert care, and fast service that keeps your vehicle
         shining like brand new.
       </p>
