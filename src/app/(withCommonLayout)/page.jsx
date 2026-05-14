@@ -223,63 +223,114 @@ const HomePage = () => {
       `}</style>
       
       {/* Hero Section */}
-      <div className='relative w-full h-screen overflow-hidden pt-20' style={{
-        backgroundImage: 'url(/hero.png)',
-        backgroundSize: 'cover',
-        backgroundPosition: 'center right',
-        backgroundAttachment: 'scroll'
-      }}>
-        {/* Dark Overlay */}
-        <div className='absolute inset-0 bg-black/50' />
+<section className="relative h-screen w-full overflow-hidden">
+  {/* Background Video */}
+  <video
+    autoPlay
+    loop
+    muted
+    playsInline
+    className="absolute inset-0 h-full w-full object-cover"
+  >
+    <source src="/car.mp4" type="video/mp4" />
+  </video>
 
-        {/* Content Container */}
-        <div className='relative max-w-7xl mx-auto px-6 h-full flex items-center'>
-          <div className='grid grid-cols-1 lg:grid-cols-2 gap-12 w-full items-center'>
-            {/* Left Content */}
-            <div className='text-white z-10'>
-              <h1 className='text-5xl lg:text-6xl font-bold mb-6 leading-tight'>
-                Best car wash & cleaning service
-              </h1>
-              <p className='text-gray-300 text-lg mb-8 leading-relaxed'>
-                A car wash is a facility used to clean the exterior and, in some cases, the motor vehicles. Car washes can be self-service.
-              </p>
+  {/* Overlay */}
+  <div className="absolute inset-0 bg-black/30" />
 
-              {/* Buttons and Contact */}
-              <div className='flex flex-col sm:flex-row gap-6 items-start sm:items-center mb-12'>
-                <button className='bg-red-500 hover:bg-red-600 text-white font-bold py-4 px-8 rounded-lg transition transform hover:scale-105'>
-                  Book an appointment
-                </button>
-                <div className='flex items-center gap-3'>
-                  <svg className='w-6 h-6 text-red-500' fill='currentColor' viewBox='0 0 24 24'>
-                    <path d='M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z'/>
-                  </svg>
-                  <div>
-                    <p className='text-gray-400 text-sm'>Call us</p>
-                    <p className='text-white text-xl font-bold'>+880 1812-456789</p>
-                  </div>
-                </div>
-              </div>
+  {/* Gradient Overlay */}
+  <div className="absolute inset-0 bg-gradient-to-r from-black/5 via-black/20 to-transparent" />
 
-              {/* Trustpilot Rating */}
-              <div className='flex items-center gap-4'>
-                <div className='flex gap-1'>
-                  {[...Array(5)].map((_, i) => (
-                    <svg key={i} className='w-6 h-6 fill-yellow-400' viewBox='0 0 24 24'>
-                      <path d='M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z'/>
-                    </svg>
-                  ))}
-                </div>
-                <div>
-                  <p className='text-white font-semibold'>200+ 5 Stars</p>
-                  <p className='text-gray-400 text-sm'>Trustpilot</p>
-                </div>
-              </div>
-            </div>
+  {/* Content */}
+  <div className="relative z-10 max-w-7xl mx-auto px-6 h-full flex items-center">
+    <div className="max-w-3xl">
+      {/* Badge */}
+      <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 px-5 py-2 rounded-full mb-6">
+        <span className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
+        <p className="text-white text-sm font-medium tracking-wide">
+           Car Detailing Service
+        </p>
+      </div>
 
-         
+      {/* Heading */}
+      <h1 className="text-5xl md:text-6xl lg:text-7xl font-extrabold text-white leading-tight mb-6">
+         Car Wash <br />
+        <span className="text-red-500">& Detailing Service</span>
+      </h1>
+
+      {/* Description */}
+      <p className="text-gray-300 text-lg md:text-xl leading-relaxed max-w-2xl mb-10">
+        Experience high-quality car cleaning and detailing with modern
+        technology, expert care, and fast service that keeps your vehicle
+        shining like brand new.
+      </p>
+
+      {/* Buttons */}
+      <div className="flex flex-col sm:flex-row gap-5 items-start sm:items-center mb-14">
+        <button className="bg-red-500 hover:bg-red-600 text-white font-semibold py-4 px-8 rounded-xl transition duration-300 hover:scale-105 shadow-lg shadow-red-500/30">
+          Book Appointment
+        </button>
+
+        <button className="border border-white/30 hover:border-white text-white py-4 px-8 rounded-xl backdrop-blur-md bg-white/10 transition duration-300 hover:bg-white hover:text-black">
+          Explore Services
+        </button>
+      </div>
+
+      {/* Bottom Info */}
+      <div className="flex flex-col sm:flex-row gap-8 items-start sm:items-center">
+        {/* Rating */}
+        <div className="flex items-center gap-4">
+          <div className="flex gap-1">
+            {[...Array(5)].map((_, i) => (
+              <svg
+                key={i}
+                className="w-5 h-5 fill-yellow-400"
+                viewBox="0 0 24 24"
+              >
+                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+              </svg>
+            ))}
+          </div>
+
+          <div>
+            <p className="text-white font-semibold">200+ Happy Clients</p>
+            <p className="text-gray-400 text-sm">Top Rated Service</p>
+          </div>
+        </div>
+
+        {/* Divider */}
+        <div className="hidden sm:block w-px h-12 bg-white/20" />
+
+        {/* Contact */}
+        <div className="flex items-center gap-4">
+          <div className="bg-red-500 p-3 rounded-full">
+            <svg
+              className="w-5 h-5 text-white"
+              fill="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z" />
+            </svg>
+          </div>
+
+          <div>
+            <p className="text-gray-400 text-sm">Call Anytime</p>
+            <p className="text-white text-xl font-bold">
+              +880 1812-456789
+            </p>
           </div>
         </div>
       </div>
+    </div>
+  </div>
+
+  {/* Scroll Down */}
+  <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20">
+    <div className="w-8 h-14 border-2 border-white/40 rounded-full flex justify-center">
+      <div className="w-2 h-2 bg-white rounded-full mt-3 animate-bounce"></div>
+    </div>
+  </div>
+</section>
 
       {/* Scrolling Services Section */}
       <div className='w-full bg-gray-900 py-8 overflow-hidden'>
