@@ -102,7 +102,7 @@ const themeColors = {
     toggleGradient: 'from-red-600 to-orange-500'
   },
   admin: {
-    primary: 'cyan',
+    primary: 'cyan',                   
     secondary: 'indigo',
     accentGlow: 'bg-cyan-500/20',
     primaryGlow: 'bg-cyan-500/20',
@@ -130,7 +130,7 @@ const LoginPage = () => {
         }}
       />
 
-      {/* Dark Overlay */}
+      {/* Dark Overlay */}                                   
       <div className='absolute inset-0 bg-black/23' />
 
       {/* Gradient Overlay */}
