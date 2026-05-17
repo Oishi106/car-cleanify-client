@@ -13,7 +13,7 @@ const serviceOptions = [
 ]
 
 const initialForm = {
-  fullName: '',
+  fullName: '',                          
   email: '',
   phone: '',
   service: 'Hand car wash',
@@ -28,7 +28,7 @@ const BookingPage = () => {
   const [submitted, setSubmitted] = useState(false)
 
   const handleChange = (event) => {
-    const { name, value } = event.target
+    const { name, value } = event.target               
     setFormData((prev) => ({ ...prev, [name]: value }))
   }
 
