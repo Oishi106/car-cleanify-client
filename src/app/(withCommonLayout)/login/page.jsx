@@ -132,10 +132,10 @@ const LoginPage = () => {
 
       {/* Dark Overlay */}                                   
       <div className='absolute inset-0 bg-black/23' />
-
+                                                 
       {/* Gradient Overlay */}
       <div className='absolute inset-0 bg-gradient-to-r from-black/70 via-black/45 to-black/50' />
-
+                         
       {/* Blur Effects */}
       <div className={`absolute top-0 left-0 w-96 h-96 ${theme.primaryGlow} rounded-full blur-3xl animate-pulse transition-all duration-700`} />
       <div className={`absolute bottom-0 right-0 w-[400px] h-[400px] ${theme.secondaryGlow} rounded-full blur-3xl animate-pulse transition-all duration-700`} />
