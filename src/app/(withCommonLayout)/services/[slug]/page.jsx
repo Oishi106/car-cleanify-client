@@ -14,12 +14,12 @@ const serviceDetails = {
     image: 'https://images.unsplash.com/photo-1542362567-b07e54358753?auto=format&fit=crop&w=1200&q=80'
   },
   'hand-car-wash': {
-    title: 'Hand car wash',
-    tag: 'Gentle care',
+    title: 'Hand car wash',                       
+    tag: 'Gentle care',                   
     summary: 'A swirl-safe hand wash for owners who want a more careful finish and attention to detail.',
     price: 'From $25',
     duration: '40-60 min',
-    idealFor: 'Paint-conscious owners',
+    idealFor: 'Paint-conscious owners',                      
     accent: 'from-amber-500/20 via-orange-500/10 to-transparent',
     features: ['Two-bucket wash method', 'Soft mitt cleaning', 'Spot-free wipe down'],
     process: ['Protective rinse and pre-soak', 'Hand wash with microfiber mitts', 'Detail dry and trim wipe'],
