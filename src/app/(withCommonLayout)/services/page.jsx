@@ -8,15 +8,15 @@ const ServicesPage = () => {
 
   const services = [
     {
-      slug: 'car-wash-lift',
+      slug: 'car-wash-lift',                         
       icon: '🚗',
-      title: 'Car wash lift',
+      title: 'Car wash lift',                                      
       description: 'High-pressure exterior cleaning with careful finish protection.'
     },
     {
       slug: 'hand-car-wash',
       icon: '🛞',
-      title: 'Hand car wash',
+      title: 'Hand car wash',                              
       description: 'Gentle hand wash service for a spotless, swirl-safe result.'
     },
     {
