@@ -185,9 +185,9 @@ const LoginPage = () => {
                   selectedRole === 'admin'
                     ? 'bg-gradient-to-r from-cyan-900 to-indigo-700 text-white shadow-lg'
                     : 'text-slate-300 hover:text-white'
-                }`}
+                }`}                           
               >
-                Admin Login
+                Admin Login                          
               </button>
             </div>
 
