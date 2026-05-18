@@ -178,7 +178,7 @@ const LoginPage = () => {
                 User Login
               </button>
 
-              <button
+              <button                                                 
                 type='button'
                 onClick={() => setSelectedRole('admin')}
                 className={`rounded-full px-6 py-3 text-sm font-semibold transition-all duration-300 ${
