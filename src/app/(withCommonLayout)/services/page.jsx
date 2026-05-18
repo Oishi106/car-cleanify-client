@@ -18,7 +18,7 @@ const ServicesPage = () => {
       icon: '🛞',
       title: 'Hand car wash',                              
       description: 'Gentle hand wash service for a spotless, swirl-safe result.'
-    },
+    },                                        
     {
       slug: 'tunnel-washes',
       icon: '🏢',
