@@ -138,7 +138,7 @@ const HistoryPage = () => {
 			`}</style>
 
 
-             {/* Hero Section */}
+             {/* Hero Section */}                                  
       <div 
         className='relative w-full min-h-[70vh] flex items-center pt-20'
         style={{
@@ -167,15 +167,15 @@ const HistoryPage = () => {
             <section className='py-20 px-6 bg-white'>
                 <div className='max-w-7xl mx-auto'>
                     <div className='relative'>
-                        <div className='timeline-line' />
+                        <div className='timeline-line' />                             
 
                         <div className='space-y-20'>
                             {timelineEvents.map((event, index) => {
                                 const isLeft = event.side === 'left'
                                 const delay = `${index * 0.1}s`
-                                return (
+                                return (                                  
                                     <div key={event.year} className='relative'>
-                                        {/* Desktop layout */}
+                                        {/* Desktop layout */}                     
                                         <div className='hidden md:block'>
                                             <div className='relative flex items-center'>
                                                 {/* Center diamond */}
