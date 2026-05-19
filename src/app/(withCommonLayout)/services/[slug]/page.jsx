@@ -3,18 +3,37 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
+import { ArrowRight, Sparkles, Clock3, BadgeDollarSign, Star } from 'lucide-react'
 
 const ServiceDetailsPage = () => {
-  const { slug } = useParams()
+  const params = useParams()
+  const slug = Array.isArray(params?.slug) ? params.slug[0] : params?.slug
   const [service, setService] = useState(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     const fetchService = async () => {
       try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/products/${slug}`)
+        const baseUrl = process.env.NEXT_PUBLIC_BACKEND_URL
+
+        const getServiceFromList = async () => {
+          const listRes = await fetch(`${baseUrl}/api/products?limit=100`)
+          const listData = await listRes.json()
+          const foundService = listData?.products?.find((item) => item.slug === slug || item._id === slug)
+          if (foundService) {
+            setService(foundService)
+          }
+        }
+
+        const res = await fetch(`${baseUrl}/api/products/${slug}`)
         const data = await res.json()
-        if (data.success) setService(data.product)
+
+        if (data?.success && data?.product) {
+          setService(data.product)
+          return
+        }
+
+        await getServiceFromList()
       } catch (err) {
         console.error('Failed to fetch service:', err)
       } finally {
@@ -24,13 +43,60 @@ const ServiceDetailsPage = () => {
     if (slug) fetchService()
   }, [slug])
 
+  const serviceImage = service?.image || 'https://images.unsplash.com/photo-1552820728-8ac41f1ce891?w=1200&h=900&fit=crop'
+  const priceLabel = typeof service?.price === 'number' ? `৳${service.price.toLocaleString()}` : 'Contact us'
+  const durationLabel = service?.duration || 'Flexible timing'
+  const ratingLabel = service?.rating ? Number(service.rating).toFixed(1) : '4.8'
+  const categoryLabel = service?.category?.name || 'Car Cleaning'
+  const featureFallbacks = [
+    'Premium exterior wash and shine',
+    'Interior vacuuming and wipe down',
+    'Surface-safe products and finish care',
+    'Quality check before handover',
+  ]
+  const features = Array.isArray(service?.features) && service.features.length > 0 ? service.features : featureFallbacks
+  const featureDetails = [
+    'Clear, careful steps with a premium result.',
+    'Built for speed without losing attention to detail.',
+    'Ideal for a clean look before meetings, trips, or pickups.',
+    'Balanced care for both daily use and special occasions.',
+  ]
+  const quickFacts = [
+    { label: 'Price', value: priceLabel },
+    { label: 'Duration', value: durationLabel },
+    { label: 'Rating', value: `★ ${ratingLabel} / 5` },
+  ]
+  const quickStats = [
+    {
+      icon: <BadgeDollarSign className='h-5 w-5' />,
+      label: 'Price',
+      value: priceLabel,
+    },
+    {
+      icon: <Clock3 className='h-5 w-5' />,
+      label: 'Duration',
+      value: durationLabel,
+    },
+    {
+      icon: <Star className='h-5 w-5' />,
+      label: 'Rating',
+      value: `★ ${ratingLabel} / 5`,
+    },
+  ]
+
   // Loading
   if (loading) {
     return (
-      <section className='relative overflow-hidden bg-slate-950 text-white min-h-screen flex items-center justify-center'>
-        <div className='text-center'>
-          <div className='w-12 h-12 border-4 border-red-500 border-t-transparent rounded-full animate-spin mx-auto mb-4' />
-          <p className='text-slate-400'>Loading service...</p>
+      <section className='relative flex min-h-screen items-center justify-center overflow-hidden bg-slate-950 text-white'>
+        <div className='absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(239,68,68,0.22),transparent_30%),radial-gradient(circle_at_bottom_right,rgba(255,255,255,0.08),transparent_28%)]' />
+        <div className='absolute inset-x-0 top-0 h-72 bg-linear-to-b from-red-500/15 to-transparent' />
+        <div className='relative mx-auto max-w-md px-6 text-center'>
+          <div className='mx-auto flex h-16 w-16 items-center justify-center rounded-2xl border border-white/10 bg-white/5 shadow-2xl backdrop-blur'>
+            <div className='h-7 w-7 animate-spin rounded-full border-2 border-red-400 border-t-transparent' />
+          </div>
+          <p className='mt-6 text-sm uppercase tracking-[0.35em] text-red-200'>Loading service</p>
+          <h1 className='mt-4 text-2xl font-bold sm:text-3xl'>Preparing the details page</h1>
+          <p className='mt-3 text-slate-400'>Fetching the latest package, price, and service imagery.</p>
         </div>
       </section>
     )
@@ -39,19 +105,40 @@ const ServiceDetailsPage = () => {
   // Not found
   if (!service) {
     return (
-      <section className='relative overflow-hidden bg-slate-950 text-white'>
-        <div className='absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(239,68,68,0.22),transparent_35%),radial-gradient(circle_at_bottom_right,rgba(248,250,252,0.08),transparent_32%)]' />
-        <div className='relative mx-auto max-w-3xl px-6 py-28 text-center'>
-          <p className='mb-4 text-sm uppercase tracking-[0.35em] text-red-300'>Service details</p>
-          <h1 className='mb-4 text-4xl font-bold md:text-5xl'>Service not found</h1>
-          <p className='mb-8 text-slate-300'>The requested service page does not exist yet.</p>
-          <div className='flex flex-col justify-center gap-3 sm:flex-row'>
-            <Link href='/services' className='inline-flex items-center justify-center rounded-full bg-red-500 px-8 py-4 font-semibold text-white transition hover:bg-red-600'>
-              Back to services
-            </Link>
-            <Link href='/services/booking' className='inline-flex items-center justify-center rounded-full border border-white/15 px-8 py-4 font-semibold text-white transition hover:border-red-400 hover:text-red-200'>
-              Book now
-            </Link>
+      <section className='relative min-h-screen overflow-hidden bg-slate-950 text-white'>
+        <div className='absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(239,68,68,0.22),transparent_35%),radial-gradient(circle_at_bottom_right,rgba(255,255,255,0.08),transparent_32%)]' />
+        <div className='absolute inset-x-0 top-0 h-80 bg-linear-to-b from-red-500/15 to-transparent' />
+        <div className='relative mx-auto grid min-h-screen max-w-6xl items-center gap-10 px-6 py-20 lg:grid-cols-[0.9fr_1.1fr]'>
+          <div>
+            <p className='mb-4 text-sm uppercase tracking-[0.35em] text-red-200'>Service details</p>
+            <h1 className='text-4xl font-bold leading-tight sm:text-5xl lg:text-6xl'>Service not found</h1>
+            <p className='mt-5 max-w-xl text-lg leading-8 text-slate-300'>
+              The requested service page could not be loaded. It may have been moved, or the backend did not return a matching item.
+            </p>
+            <div className='mt-8 flex flex-col gap-3 sm:flex-row'>
+              <Link href='/services' className='inline-flex items-center justify-center rounded-full bg-red-500 px-8 py-4 font-semibold text-white transition hover:bg-red-600'>
+                Back to services
+              </Link>
+              <Link href='/services/booking' className='inline-flex items-center justify-center rounded-full border border-white/15 px-8 py-4 font-semibold text-white transition hover:border-white/30 hover:bg-white/5'>
+                Book now
+              </Link>
+            </div>
+          </div>
+
+          <div className='grid gap-4 rounded-4xl border border-white/10 bg-white/5 p-6 shadow-2xl backdrop-blur'>
+            <div className='rounded-3xl border border-white/10 bg-slate-900/70 p-6'>
+              <p className='text-xs uppercase tracking-[0.3em] text-red-200'>What you can do</p>
+              <div className='mt-5 grid gap-4 sm:grid-cols-2'>
+                <div className='rounded-2xl border border-white/10 bg-white/5 p-4'>
+                  <p className='text-sm font-semibold text-white'>Browse services</p>
+                  <p className='mt-2 text-sm leading-6 text-slate-300'>Return to the service catalog and choose another package.</p>
+                </div>
+                <div className='rounded-2xl border border-white/10 bg-white/5 p-4'>
+                  <p className='text-sm font-semibold text-white'>Book a slot</p>
+                  <p className='mt-2 text-sm leading-6 text-slate-300'>Go directly to the booking form if you already know what you want.</p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -59,168 +146,173 @@ const ServiceDetailsPage = () => {
   }
 
   return (
-    <>
-      {/* ── Hero ─────────────────────────────── */}
-      <section className='relative overflow-hidden bg-slate-950 text-white'>
-        <div className='absolute inset-0 bg-gradient-to-br from-red-500/20 via-red-500/10 to-transparent' />
-        <div className='absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.12),transparent_28%),radial-gradient(circle_at_bottom_left,rgba(255,255,255,0.06),transparent_24%)]' />
+    <main className='relative overflow-hidden bg-slate-950 text-white'>
+      <div className='absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(239,68,68,0.2),transparent_28%),radial-gradient(circle_at_bottom_right,rgba(255,255,255,0.08),transparent_26%)]' />
+      <div className='absolute inset-x-0 top-0 h-80 bg-linear-to-b from-red-500/15 to-transparent' />
+              {/* HERO */}
+      <section className='relative'>
+        <div
+          className='absolute inset-0 bg-cover bg-center'
+          style={{
+            backgroundImage: `url(${serviceImage})`,
+          }}
+        />
 
-        <div className='relative mx-auto grid max-w-7xl gap-10 px-6 py-24 lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:py-28'>
-          <div className='max-w-2xl'>
-            {/* Category tag */}
-            <p className='mb-4 text-sm uppercase tracking-[0.35em] text-red-200'>
-              {service.category?.name || 'Car Cleaning'}
-            </p>
-            <h1 className='text-4xl font-bold leading-tight sm:text-5xl lg:text-7xl'>
+        <div className='absolute inset-0 bg-black/70 backdrop-blur-[2px]' />
+
+        <div className='relative mx-auto grid min-h-screen max-w-7xl items-center gap-16 px-6 py-24 lg:grid-cols-2'>
+          {/* LEFT */}
+          <div>
+            <div className='mb-6 inline-flex items-center gap-2 rounded-full border border-red-500/30 bg-red-500/10 px-5 py-2 text-sm font-semibold text-red-200 backdrop-blur'>
+              <Sparkles className='h-4 w-4' />
+              {categoryLabel}
+            </div>
+
+            <h1 className='max-w-3xl text-5xl font-black leading-tight md:text-7xl'>
               {service.name}
             </h1>
-            <p className='mt-6 max-w-xl text-base leading-7 text-slate-300 sm:text-lg'>
+
+            <p className='mt-8 max-w-2xl text-lg leading-8 text-slate-300'>
               {service.description}
             </p>
 
-            {/* Badges */}
-            <div className='mt-8 flex flex-wrap gap-3'>
-              <span className='rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm font-medium text-white/90'>
-                ৳{service.price?.toLocaleString()}
-              </span>
-              <span className='rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm font-medium text-white/90'>
-                ⏱ {service.duration}
-              </span>
-              <span className='rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm font-medium text-white/90'>
-                ★ {service.rating} Rating
-              </span>
-              {service.popular && (
-                <span className='rounded-full border border-red-500/30 bg-red-500/10 px-4 py-2 text-sm font-medium text-red-300'>
-                  🔥 Popular Service
-                </span>
-              )}
+            <div className='mt-10 flex flex-wrap gap-4'>
+              <div className='rounded-2xl border border-white/10 bg-white/10 px-5 py-4 backdrop-blur'>
+                <p className='text-sm text-slate-400'>Starting From</p>
+                <h3 className='mt-1 text-2xl font-bold'>{priceLabel}</h3>
+              </div>
+
+              <div className='rounded-2xl border border-white/10 bg-white/10 px-5 py-4 backdrop-blur'>
+                <p className='text-sm text-slate-400'>Estimated Time</p>
+                <h3 className='mt-1 text-2xl font-bold'>{durationLabel}</h3>
+              </div>
             </div>
 
-            {/* CTA */}
             <div className='mt-10 flex flex-col gap-4 sm:flex-row'>
               <Link
                 href='/services/booking'
-                className='inline-flex items-center justify-center rounded-full bg-red-500 px-8 py-4 font-semibold text-white transition hover:bg-red-600'
+                className='inline-flex items-center justify-center gap-2 rounded-full bg-red-500 px-8 py-4 font-semibold transition hover:bg-red-600'
               >
-                Book this service
+                Book Service
+                <ArrowRight className='h-5 w-5' />
               </Link>
+
               <Link
                 href='/services'
-                className='inline-flex items-center justify-center rounded-full border border-white/15 px-8 py-4 font-semibold text-white transition hover:border-white/30 hover:bg-white/5'
+                className='inline-flex items-center justify-center rounded-full border border-white/20 px-8 py-4 font-semibold transition hover:bg-white/10'
               >
-                Explore all services
+                Explore Services
               </Link>
             </div>
           </div>
 
-          {/* Image */}
+          {/* RIGHT CARD */}
           <div className='relative'>
-            <div className='absolute -left-4 -top-4 h-24 w-24 rounded-full bg-red-500/20 blur-2xl' />
-            <div className='overflow-hidden rounded-3xl border border-white/10 bg-white/5 shadow-2xl'>
+            <div className='rounded-[40px] border border-white/10 bg-white/10 p-7 shadow-2xl backdrop-blur-xl'>
               <img
-                src={service.image}
+                src={serviceImage}
                 alt={service.name}
-                className='w-full h-72 sm:h-96 object-cover'
-                onError={(e) => {
-                  e.target.src = 'https://images.unsplash.com/photo-1552820728-8ac41f1ce891?w=600&h=400&fit=crop'
-                }}
+                className='h-[500px] w-full rounded-[30px] object-cover'
               />
-            </div>
 
-            {/* Stat cards */}
-            <div className='-mt-12 grid grid-cols-3 gap-3 px-4'>
-              <div className='rounded-2xl border border-white/10 bg-slate-900/90 p-4 shadow-xl backdrop-blur'>
-                <p className='text-xs uppercase tracking-widest text-red-300'>Price</p>
-                <p className='mt-1 text-sm font-semibold text-white'>
-                  ৳{service.price?.toLocaleString()}
-                </p>
-              </div>
-              <div className='rounded-2xl border border-white/10 bg-slate-900/90 p-4 shadow-xl backdrop-blur'>
-                <p className='text-xs uppercase tracking-widest text-red-300'>Time</p>
-                <p className='mt-1 text-sm font-semibold text-white'>{service.duration}</p>
-              </div>
-              <div className='rounded-2xl border border-white/10 bg-slate-900/90 p-4 shadow-xl backdrop-blur'>
-                <p className='text-xs uppercase tracking-widest text-red-300'>Rating</p>
-                <p className='mt-1 text-sm font-semibold text-white'>★ {service.rating}</p>
+              <div className='mt-6 grid gap-4 sm:grid-cols-3'>
+                {quickStats.map((item, index) => (
+                  <div
+                    key={index}
+                    className='rounded-2xl border border-white/10 bg-black/30 p-4 text-center'
+                  >
+                    <div className='mx-auto flex h-10 w-10 items-center justify-center rounded-full bg-red-500/20 text-red-300'>
+                      {item.icon}
+                    </div>
+
+                    <p className='mt-3 text-sm text-slate-400'>
+                      {item.label}
+                    </p>
+
+                    <h4 className='mt-1 font-bold'>{item.value}</h4>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ── Features + Info ───────────────────── */}
-      <section className='bg-white py-20'>
-        <div className='mx-auto grid max-w-7xl gap-10 px-6 lg:grid-cols-[1.05fr_0.95fr]'>
-
-          {/* Features */}
-          <div className='rounded-3xl border border-slate-200 bg-slate-50 p-6 shadow-sm sm:p-8'>
-            <div className='mb-8'>
-              <p className='text-sm uppercase tracking-[0.3em] text-red-500'>Included</p>
-              <h2 className='mt-2 text-3xl font-bold text-slate-900'>What is included</h2>
-            </div>
-            <div className='grid gap-4'>
-              {service.features?.map((feature) => (
-                <div
-                  key={feature}
-                  className='flex items-start gap-4 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md'
-                >
-                  <div className='flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-red-500 text-white font-bold text-sm'>
-                    ✓
-                  </div>
-                  <div>
-                    <p className='font-semibold text-slate-900'>{feature}</p>
-                    <p className='mt-1 text-sm leading-6 text-slate-500'>
-                      Professional steps designed to protect the surface and improve the final finish.
-                    </p>
-                  </div>
+      <section className='relative bg-white text-slate-900'>
+        <div className='mx-auto grid max-w-7xl gap-10 px-6 py-20 lg:grid-cols-[1.05fr_0.95fr]'>
+          <div className='space-y-8'>
+            <div className='rounded-4xl border border-slate-200 bg-slate-50 p-6 shadow-sm sm:p-8'>
+              <div className='flex items-end justify-between gap-4'>
+                <div>
+                  <p className='text-sm uppercase tracking-[0.35em] text-red-500'>Included</p>
+                  <h2 className='mt-2 text-3xl font-bold'>What is included</h2>
                 </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Right column */}
-          <div className='grid gap-6'>
-            {/* Dark info card */}
-            <div className='rounded-3xl bg-slate-950 p-6 text-white shadow-xl sm:p-8'>
-              <div className='mb-8 flex flex-wrap gap-4'>
-                <div className='rounded-2xl bg-white/5 px-4 py-3'>
-                  <p className='text-xs uppercase tracking-widest text-red-300'>Duration</p>
-                  <p className='mt-1 text-lg font-semibold'>{service.duration}</p>
-                </div>
-                <div className='rounded-2xl bg-white/5 px-4 py-3'>
-                  <p className='text-xs uppercase tracking-widest text-red-300'>Price</p>
-                  <p className='mt-1 text-lg font-semibold'>৳{service.price?.toLocaleString()}</p>
-                </div>
-                <div className='rounded-2xl bg-white/5 px-4 py-3'>
-                  <p className='text-xs uppercase tracking-widest text-red-300'>Rating</p>
-                  <p className='mt-1 text-lg font-semibold'>★ {service.rating} / 5</p>
-                </div>
+                <p className='text-sm text-slate-500'>Selected steps for this package</p>
               </div>
 
-              <h2 className='text-3xl font-bold'>Why this service works</h2>
-              <p className='mt-5 text-slate-300 leading-7'>
-                This package balances finish quality, turnaround time, and day-to-day vehicle care so you can choose the right level of service without guessing.
-              </p>
-
-              {/* Tags as steps */}
               <div className='mt-8 grid gap-4 sm:grid-cols-2'>
-                {service.features?.slice(0, 4).map((feature, index) => (
-                  <div key={feature} className='rounded-2xl border border-white/10 bg-white/5 p-4'>
-                    <p className='text-sm uppercase tracking-widest text-red-300'>Step {index + 1}</p>
-                    <p className='mt-2 font-semibold text-white'>{feature}</p>
+                {features.map((feature, index) => (
+                  <div
+                    key={feature}
+                    className='rounded-3xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md'
+                  >
+                    <div className='flex items-start gap-4'>
+                      <div className='flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-red-500 text-sm font-bold text-white'>
+                        0{index + 1}
+                      </div>
+                      <div>
+                        <p className='font-semibold text-slate-900'>{feature}</p>
+                        <p className='mt-2 text-sm leading-6 text-slate-500'>
+                          {featureDetails[index] || 'Designed to leave the vehicle looking sharp and well cared for.'}
+                        </p>
+                      </div>
+                    </div>
                   </div>
                 ))}
               </div>
             </div>
 
-            {/* CTA card */}
-            <div className='rounded-3xl border border-slate-200 bg-slate-50 p-6 shadow-sm sm:p-8'>
-              <p className='text-sm uppercase tracking-[0.3em] text-red-500'>Next step</p>
-              <h3 className='mt-2 text-2xl font-bold text-slate-900'>Ready to book?</h3>
-              <p className='mt-4 text-slate-600 leading-7'>
-                Book the service now and we will confirm the best slot, or explore the full list of options before you decide.
+            <div className='grid gap-6 md:grid-cols-[0.95fr_1.05fr]'>
+              <div className='rounded-4xl bg-slate-950 p-6 text-white shadow-xl sm:p-8'>
+                <p className='text-sm uppercase tracking-[0.35em] text-red-200'>Why it works</p>
+                <h3 className='mt-3 text-2xl font-bold'>Balanced for quality and speed</h3>
+                <p className='mt-4 leading-7 text-slate-300'>
+                  This package is shaped to give you a clean, premium result without making the process complicated. It is a practical choice when you want the car to look ready without overthinking the options.
+                </p>
+              </div>
+
+              <div className='rounded-4xl border border-slate-200 bg-slate-50 p-6 shadow-sm sm:p-8'>
+                <p className='text-sm uppercase tracking-[0.35em] text-red-500'>Quick facts</p>
+                <div className='mt-5 grid gap-4'>
+                  {quickFacts.map((fact) => (
+                    <div key={fact.label} className='flex items-center justify-between rounded-2xl border border-slate-200 bg-white px-4 py-3'>
+                      <span className='text-sm font-medium text-slate-500'>{fact.label}</span>
+                      <span className='text-sm font-semibold text-slate-900'>{fact.value}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <aside className='lg:sticky lg:top-24 h-fit space-y-6'>
+            <div className='rounded-4xl border border-slate-200 bg-slate-950 p-6 text-white shadow-2xl sm:p-8'>
+              <p className='text-sm uppercase tracking-[0.35em] text-red-200'>Book now</p>
+              <h3 className='mt-3 text-3xl font-bold'>Ready to reserve this service?</h3>
+              <p className='mt-4 leading-7 text-slate-300'>
+                Book directly or compare with the rest of the services before you choose a slot.
               </p>
-              <div className='mt-6 flex flex-col gap-3 sm:flex-row'>
+
+              <div className='mt-8 grid gap-3'>
+                {quickFacts.map((fact) => (
+                  <div key={fact.label} className='rounded-2xl border border-white/10 bg-white/5 px-4 py-3'>
+                    <p className='text-xs uppercase tracking-[0.3em] text-red-200'>{fact.label}</p>
+                    <p className='mt-1 text-base font-semibold text-white'>{fact.value}</p>
+                  </div>
+                ))}
+              </div>
+
+              <div className='mt-8 flex flex-col gap-3'>
                 <Link
                   href='/services/booking'
                   className='inline-flex items-center justify-center rounded-full bg-red-500 px-7 py-3.5 font-semibold text-white transition hover:bg-red-600'
@@ -229,41 +321,32 @@ const ServiceDetailsPage = () => {
                 </Link>
                 <Link
                   href='/services'
-                  className='inline-flex items-center justify-center rounded-full border border-slate-300 px-7 py-3.5 font-semibold text-slate-700 transition hover:border-red-500 hover:text-red-500'
+                  className='inline-flex items-center justify-center rounded-full border border-white/15 px-7 py-3.5 font-semibold text-white transition hover:border-white/30 hover:bg-white/5'
                 >
                   Browse services
                 </Link>
               </div>
             </div>
-          </div>
+
+            <div className='rounded-4xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8'>
+              <p className='text-sm uppercase tracking-[0.35em] text-red-500'>Need help?</p>
+              <h3 className='mt-3 text-2xl font-bold text-slate-900'>Want a quick recommendation?</h3>
+              <p className='mt-4 leading-7 text-slate-600'>
+                If you are not sure which package fits best, start with the booking form or contact the team for guidance.
+              </p>
+              <Link
+                href='/contact'
+                className='mt-6 inline-flex items-center justify-center rounded-full border border-slate-300 px-6 py-3 font-semibold text-slate-700 transition hover:border-red-500 hover:text-red-500'
+              >
+                Contact us
+              </Link>
+            </div>
+          </aside>
         </div>
       </section>
 
-      {/* ── CTA — আগের মতোই ─────────────────── */}
-      <section className='bg-gradient-to-r from-slate-900 via-slate-950 to-slate-900 py-20 text-white'>
-        <div className='mx-auto max-w-5xl px-6 text-center'>
-          <p className='text-sm uppercase tracking-[0.3em] text-red-300'>Ready to go</p>
-          <h2 className='mt-3 text-3xl font-bold md:text-4xl'>Ready to book this service?</h2>
-          <p className='mx-auto mt-4 max-w-2xl text-lg leading-7 text-slate-300'>
-            Move straight to the booking form and choose a date that works for you.
-          </p>
-          <div className='mt-8 flex flex-col justify-center gap-4 sm:flex-row'>
-            <Link
-              href='/services/booking'
-              className='inline-flex items-center justify-center rounded-full bg-red-500 px-8 py-4 font-semibold text-white transition hover:bg-red-600'
-            >
-              Book now
-            </Link>
-            <Link
-              href='/contact'
-              className='inline-flex items-center justify-center rounded-full border border-white/15 px-8 py-4 font-semibold text-white transition hover:border-white/30 hover:bg-white/5'
-            >
-              Contact us
-            </Link>
-          </div>
-        </div>
-      </section>
-    </>
+     
+    </main>
   )
 }
 

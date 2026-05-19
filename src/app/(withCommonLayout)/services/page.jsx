@@ -172,16 +172,20 @@ const ServicesPage = () => {
           {!loading && (
             <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6'>
               {filtered.map((service, index) => (
+                (() => {
+                  const servicePath = service.slug || service._id
+
+                  return (
                 <div
                   key={service._id}
                   data-scroll-animate
                   role='link'
                   tabIndex={0}
-                  onClick={() => router.push(`/services/${service.slug}`)}
+                  onClick={() => router.push(`/services/${servicePath}`)}
                   onKeyDown={(e) => {
                     if (e.key === 'Enter' || e.key === ' ') {
                       e.preventDefault()
-                      router.push(`/services/${service.slug}`)
+                      router.push(`/services/${servicePath}`)
                     }
                   }}
                   className={`card-hover service-card ${visibleItems[index] ? 'visible' : ''} bg-gray-50 rounded-2xl overflow-hidden border border-transparent hover:border-red-200 flex flex-col`}
@@ -250,7 +254,7 @@ const ServicesPage = () => {
                     {/* CTA */}
                     <div className='mt-auto flex gap-2'>
                       <Link
-                        href={`/services/${service.slug}`}
+                        href={`/services/${servicePath}`}
                         onClick={(e) => e.stopPropagation()}
                         className='flex-1 bg-red-500 hover:bg-red-600 text-white text-sm font-semibold py-2.5 rounded-lg text-center transition'
                       >
@@ -266,6 +270,8 @@ const ServicesPage = () => {
                     </div>
                   </div>
                 </div>
+                  )
+                })()
               ))}
             </div>
           )}
