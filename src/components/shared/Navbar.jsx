@@ -68,7 +68,6 @@ const Navbar = () => {
           {/* Desktop Menu Items */}
           <div className={`hidden lg:flex items-center gap-4 xl:gap-8 ${isScrolled ? 'text-gray-900' : 'text-white'}`}>
             <Link href='/' className='font-semibold hover:text-red-500 transition text-sm xl:text-base'>Home</Link>
-            <Link href='/about' className='font-semibold hover:text-red-500 transition text-sm xl:text-base'>About</Link>
             
             {/* Services Dropdown */}
             <div className='relative group'>
@@ -141,7 +140,6 @@ const Navbar = () => {
         {isMobileMenuOpen && (
           <div className={`lg:hidden mt-4 pb-4 space-y-2 ${isScrolled ? 'text-gray-900' : 'text-white'}`}>
             <Link href='/' className='block px-4 py-2 hover:text-red-500 transition'>Home</Link>
-            <Link href='/about' className='block px-4 py-2 hover:text-red-500 transition'>About</Link>
             
             {/* Mobile Services Dropdown */}
             <div>
