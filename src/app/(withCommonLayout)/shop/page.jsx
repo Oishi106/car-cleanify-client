@@ -6,6 +6,7 @@ import Image from 'next/image'
 
 const fallbackImage =
   'https://images.unsplash.com/photo-1607860108855-64acf2078ed9?auto=format&fit=crop&w=900&q=80'
+const cartStorageKey = 'car-cleanify-cart'
 
 const formatPrice = (value) => {
   if (value === null || value === undefined || value === '') {
@@ -23,6 +24,18 @@ const formatPrice = (value) => {
     : String(value)
 }
 
+const toNumericPrice = (value) => {
+  if (typeof value === 'number') return value
+
+  if (typeof value === 'string') {
+    const numericValue = Number(value)
+
+    return Number.isFinite(numericValue) ? numericValue : null
+  }
+
+  return null
+}
+
 const normalizeCategory = (category) => {
   if (!category) return 'All Products'
 
@@ -34,7 +47,8 @@ const normalizeCategory = (category) => {
 const normalizeProduct = (item) => ({
   id: item._id || item.id || item.slug || item.name,
   name: item.name || item.title || 'Untitled product',
-  price: formatPrice(item.discountPrice || item.price),
+  priceLabel: formatPrice(item.discountPrice || item.price),
+  priceValue: toNumericPrice(item.discountPrice || item.price),
   category: normalizeCategory(item.category),
   description:
     item.description ||
@@ -58,12 +72,28 @@ const extractProducts = (data) => {
   return candidates.find((value) => Array.isArray(value)) || []
 }
 
+const readCartFromStorage = () => {
+  if (typeof window === 'undefined') return []
+
+  try {
+    const storedCart = window.localStorage.getItem(cartStorageKey)
+
+    return storedCart ? JSON.parse(storedCart) : []
+  } catch (error) {
+    console.error('Failed to read cart from storage:', error)
+
+    return []
+  }
+}
+
 const ShopPage = () => {
   const [products, setProducts] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const [activeCategory, setActiveCategory] =
     useState('All Products')
+  const [cartItems, setCartItems] = useState([])
+  const [recentlyAddedId, setRecentlyAddedId] = useState('')
 
   useEffect(() => {
     const fetchShopProducts = async () => {
@@ -113,6 +143,19 @@ const ShopPage = () => {
     fetchShopProducts()
   }, [])
 
+  useEffect(() => {
+    setCartItems(readCartFromStorage())
+  }, [])
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+
+    window.localStorage.setItem(
+      cartStorageKey,
+      JSON.stringify(cartItems)
+    )
+  }, [cartItems])
+
   const categories = useMemo(() => {
     const uniqueCategories = Array.from(
       new Set(
@@ -124,6 +167,67 @@ const ShopPage = () => {
 
     return ['All Products', ...uniqueCategories]
   }, [products])
+
+  const cartCount = useMemo(
+    () =>
+      cartItems.reduce(
+        (total, item) => total + (item.quantity || 1),
+        0
+      ),
+    [cartItems]
+  )
+
+  const cartTotal = useMemo(
+    () =>
+      cartItems.reduce((total, item) => {
+        const quantity = item.quantity || 1
+        const priceValue = item.priceValue || 0
+
+        return total + priceValue * quantity
+      }, 0),
+    [cartItems]
+  )
+
+  const handleAddToCart = (product) => {
+    setCartItems((currentCart) => {
+      const existingItem = currentCart.find(
+        (item) => item.id === product.id
+      )
+
+      if (existingItem) {
+        return currentCart.map((item) =>
+          item.id === product.id
+            ? { ...item, quantity: (item.quantity || 1) + 1 }
+            : item
+        )
+      }
+
+      return [
+        ...currentCart,
+        {
+          id: product.id,
+          name: product.name,
+          priceLabel: product.priceLabel,
+          priceValue: product.priceValue,
+          image: product.image,
+          category: product.category,
+          quantity: 1,
+        },
+      ]
+    })
+
+    setRecentlyAddedId(product.id)
+  }
+
+  useEffect(() => {
+    if (!recentlyAddedId) return
+
+    const timer = window.setTimeout(() => {
+      setRecentlyAddedId('')
+    }, 1600)
+
+    return () => window.clearTimeout(timer)
+  }, [recentlyAddedId])
 
   const filteredProducts =
     activeCategory === 'All Products'
@@ -200,6 +304,52 @@ const ShopPage = () => {
               <span className='text-sm font-medium text-slate-600'>
                 {filteredProducts.length} Products Available
               </span>
+            </div>
+          </div>
+
+          <div className='mb-5 grid gap-3 md:grid-cols-2 xl:grid-cols-3'>
+            <div className='rounded-3xl border border-slate-200 bg-white px-5 py-4 shadow-sm'>
+              <p className='text-sm font-semibold uppercase tracking-[0.2em] text-red-500'>
+                Cart Status
+              </p>
+
+              <div className='mt-2 flex items-end justify-between gap-4'>
+                <div>
+                  <p className='text-3xl font-black text-slate-900'>
+                    {cartCount}
+                  </p>
+
+                  <p className='text-sm text-slate-500'>
+                    items saved in cart
+                  </p>
+                </div>
+
+                <div className='text-right'>
+                  <p className='text-sm text-slate-500'>
+                    Estimated total
+                  </p>
+
+                  <p className='text-xl font-bold text-slate-900'>
+                    {cartTotal > 0 ? `৳${cartTotal.toLocaleString()}` : '৳0'}
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className='rounded-3xl border border-slate-200 bg-white px-5 py-4 shadow-sm md:col-span-1 xl:col-span-2'>
+              <p className='text-sm font-semibold uppercase tracking-[0.2em] text-red-500'>
+                Quick Action
+              </p>
+
+              <div className='mt-2 flex flex-wrap items-center justify-between gap-3'>
+                <p className='text-slate-600'>
+                  Click any product below to add it to your cart and keep the selection saved in this browser.
+                </p>
+
+                <span className='inline-flex items-center rounded-full bg-slate-950 px-4 py-2 text-sm font-semibold text-white'>
+                  {recentlyAddedId ? 'Added to cart' : 'Ready to add'}
+                </span>
+              </div>
             </div>
           </div>
 
@@ -349,18 +499,21 @@ const ShopPage = () => {
 
                     {/* Buttons */}
                     <div className='flex gap-3'>
-                      <Link
-                        href='/contact'
+                      <button
+                        type='button'
+                        onClick={() => handleAddToCart(product)}
                         className='inline-flex flex-1 items-center justify-center rounded-full bg-slate-950 px-6 py-3 font-semibold text-white transition-all duration-300 hover:bg-red-500'
                       >
-                        Buy Now
-                      </Link>
+                        {recentlyAddedId === product.id
+                          ? 'Added to Cart'
+                          : 'Add to Cart'}
+                      </button>
 
                       <Link
-                        href='/services/booking'
+                        href='/contact'
                         className='inline-flex items-center justify-center rounded-full border border-slate-300 px-6 py-3 font-semibold text-slate-700 transition-all duration-300 hover:border-red-500 hover:text-red-500'
                       >
-                        Book
+                        Buy Now
                       </Link>
                     </div>
                   </div>
